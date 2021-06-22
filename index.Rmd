@@ -1,15 +1,20 @@
 ---
 title: "COVID-19 Cases/Vaccinations Analysis"
 description: |
-  Welcome to the website! I hope you enjoy it!
+  Welcome to the website. I hope you enjoy it!
 site: distill::distill_website
 ---
+
+## Introduction
+This website is devoted to analyze COVID-19 data in China, Canada, United States, and United Kingdom.
+
+## Visualiation
+Graphs shown below visually demonstrates the recent data about cases and vaccines situations in China, Canada, United States, and United Kingdom.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(plotly)
-library(grid)
 ```
 
 ```{r include = FALSE}
@@ -37,7 +42,7 @@ cases_graph <- clean_cases_data %>%
         x = "Date",
         y = "Daily Cases Percentage
        ",
-       color = "ISO country codes")
+       color = "ISO codes")
 
 ggplotly(cases_graph, tooltip = c("date", "new_cases_smoothed_percentage"))
 ```
@@ -53,7 +58,7 @@ vaccinations_graph <- clean_vaccinations_data %>%
         x = "Date",
         y = "Daily Vaccinations Percentage
        ",
-       color = "ISO country codes")
+       color = "ISO codes")
 
 ggplotly(vaccinations_graph, tooltip = c("date",  "new_vaccinations_smoothed_percentage"))
 ```
