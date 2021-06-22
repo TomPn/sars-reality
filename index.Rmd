@@ -1,20 +1,21 @@
 ---
 title: "COVID-19 Cases/Vaccinations Analysis"
 description: |
-  Welcome to the website. I hope you enjoy it!
+  An Examination of COVID-19 data in China, Canada, United States, and United Kingdom. 
 site: distill::distill_website
 ---
 
-## Introduction
-This website is devoted to analyze COVID-19 data in China, Canada, United States, and United Kingdom.
-
 ## Visualiation
 Graphs shown below visually demonstrates the recent data about cases and vaccines situations in China, Canada, United States, and United Kingdom.
+
+### Daily Cases
+The graph below demonstrates current data of daily COVID-19 cases in China, Canada, United States, and United Kingdom starting from Feb 2020.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(plotly)
+library(ggthemes)
 ```
 
 ```{r include = FALSE}
@@ -30,6 +31,10 @@ clean_vaccinations_data <- read_csv("owid-covid-data.csv") %>%
   mutate(new_vaccinations_smoothed_percentage = new_vaccinations_smoothed_per_million / 1000000) %>% 
   drop_na()
 ```
+
+### Analysis
+According to the graph, China did significantly better than the other countries on controlling the spread of virus because the line 
+representing China's data is constantly lower than the others.
 
 ```{r, echo = FALSE}
 cases_graph <- clean_cases_data %>% 
@@ -58,7 +63,7 @@ vaccinations_graph <- clean_vaccinations_data %>%
         x = "Date",
         y = "Daily Vaccinations Percentage
        ",
-       color = "ISO codes")
+       color = "ISO codes") 
 
 ggplotly(vaccinations_graph, tooltip = c("date",  "new_vaccinations_smoothed_percentage"))
 ```
