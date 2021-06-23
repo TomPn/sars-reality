@@ -1,15 +1,15 @@
 ---
-title: "COVID-19 Cases/Vaccinations Analysis"
+title: "COVID-19 Cases/Vaccinations Examination"
 description: |
   An Examination of COVID-19 data in China, Canada, United States, and United Kingdom. 
 site: distill::distill_website
 ---
 
-## Visualiation
-Graphs shown below visually demonstrates the recent data about cases and vaccines situations in China, Canada, United States, and United Kingdom.
+## Visualization
+Graphs below visually demonstrate the recent data about case and vaccination situations in China, Canada, United States, and United Kingdom.
 
-### Daily Cases
-The graph below demonstrates current data of daily COVID-19 cases in China, Canada, United States, and United Kingdom starting from Feb 2020.
+### Weekly Cases
+The graph below demonstrates current data of weekly COVID-19 cases in China, Canada, United States, and United Kingdom starting from Feburary 2020.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
@@ -22,40 +22,41 @@ library(ggthemes)
 clean_cases_data <- read_csv("owid-covid-data.csv") %>% 
   select(iso_code, date, new_cases_smoothed, new_cases_smoothed_per_million) %>% 
   filter(iso_code == c("CHN", "CAN", "USA", "GBR")) %>% 
-  mutate(new_cases_smoothed_percentage = new_cases_smoothed_per_million / 1000000) %>% 
+  mutate(new_cases_percentage = new_cases_smoothed_per_million / 1000000) %>% 
   drop_na()
-
 clean_vaccinations_data <- read_csv("owid-covid-data.csv") %>% 
-  select(iso_code, date, new_vaccinations_smoothed_per_million) %>% 
+  select(iso_code, date, new_vaccinations_smoothed_per_million, new_vaccinations_smoothed) %>% 
   filter(iso_code == c("CHN", "CAN", "USA", "GBR")) %>% 
-  mutate(new_vaccinations_smoothed_percentage = new_vaccinations_smoothed_per_million / 1000000) %>% 
+  mutate(new_vaccinations_percentage = new_vaccinations_smoothed_per_million / 1000000) %>% 
   drop_na()
 ```
 
-### Analysis
-According to the graph, China did significantly better than the other countries on controlling the spread of virus because the line 
-representing China's data is constantly lower than the others.
-
 ```{r, echo = FALSE}
-cases_graph <- clean_cases_data %>% 
+clean_cases_data %>% 
   ggplot() +
-  geom_line(aes(x = date, y = new_cases_smoothed_percentage, color = iso_code)) +
+  geom_line(aes(x = date, y = new_cases_percentage, color = iso_code)) +
   facet_wrap(~iso_code) +
   scale_y_continuous(labels = scales::percent_format()) +
   labs(title = "Daily COVID-19 Cases in four countries",
-        subtitle = "Number of cases in China is siginificantly lower than others",
-        x = "Date",
-        y = "Daily Cases Percentage
-       ",
-       color = "ISO codes")
-
-ggplotly(cases_graph, tooltip = c("date", "new_cases_smoothed_percentage"))
+       subtitle = "Number of cases in China is siginificantly lower than others",
+       x = "Date",
+       y = "Daily Cases Percentage",
+       color = "ISO codes",
+       caption = "Source: Our World in Data")
 ```
+
+### Analysis
+According to the graph, China did significantly better than the other countries on controlling the spread of virus because the line representing China's data is constantly at a level that is around 0%. An interesting point to note is that Canada, United Kingdom, and United states all have a peak during January 2021, and it could represent that virus or social communication is most active during that time period.
+
+### Weekly Vaccinations
+The graph below demonstrates current data of weekly vaccinations in China, Canada, United States, and United Kingdom starting from January 2021.
 
 ```{r, echo = FALSE}
 vaccinations_graph <- clean_vaccinations_data %>% 
-  ggplot() +
-  geom_line(aes(x = date, y = new_vaccinations_smoothed_percentage, color = iso_code)) +
+  ggplot(aes(x = date, y = new_vaccinations_percentage, color = iso_code,
+             text = paste("Date:", date, "\n",
+                          "Number of Vaccinations", new_vaccinations_smoothed)))+
+  geom_point() +
   facet_wrap(~iso_code) +
   scale_y_continuous(labels = scales::percent_format()) +
   labs(title = "Daily COVID-19 Vaccinations in four countries",
@@ -63,8 +64,14 @@ vaccinations_graph <- clean_vaccinations_data %>%
         x = "Date",
         y = "Daily Vaccinations Percentage
        ",
-       color = "ISO codes") 
-
-ggplotly(vaccinations_graph, tooltip = c("date",  "new_vaccinations_smoothed_percentage"))
+       color = "ISO codes",
+       caption = "Source: Our World in Data") 
+  
+ggplotly(vaccinations_graph, tooltip = "text")
 ```
+<aside>
+Source: Our World in Data
+</aside>
 
+### Analysis
+According to the graph, China and Canada have a constantly positive trend of vaccination progress, whereas United Kingdom fluctuates frequently starting from February. The trend in United States is dramatic since the number of vaccination grew consistently before mid-April, but it began to drop intensely after that. 
