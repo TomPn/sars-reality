@@ -1,47 +1,57 @@
 ---
 title: "COVID-19 Cases/Vaccinations Examination"
 description: |
-  An Examination of COVID-19 data in China, Canada, United States, and United Kingdom. 
+  An Examination of COVID-19 data in various countries and continents. 
 site: distill::distill_website
 ---
-
-## Visualization
-Graphs below visually demonstrate the recent data about case and vaccination situations in China, Canada, United States, and United Kingdom.
-
-### Weekly Cases
-The graph below demonstrates current data of weekly COVID-19 cases in China, Canada, United States, and United Kingdom starting from Feburary 2020.
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(plotly)
 library(ggthemes)
+library(knitr)
+library(rmarkdown)
 ```
 
 ```{r include = FALSE}
 clean_cases_data <- read_csv("owid-covid-data.csv") %>% 
-  select(iso_code, date, new_cases_smoothed, new_cases_smoothed_per_million) %>% 
-  filter(iso_code == c("CHN", "CAN", "USA", "GBR")) %>% 
+  select(location, date, new_cases_smoothed, new_cases_smoothed_per_million) %>% 
+  filter(location == c("China", "Canada", "United States", "United Kingdom")) %>% 
   mutate(new_cases_percentage = new_cases_smoothed_per_million / 1000000) %>% 
   drop_na()
 clean_vaccinations_data <- read_csv("owid-covid-data.csv") %>% 
-  select(iso_code, date, new_vaccinations_smoothed_per_million, new_vaccinations_smoothed) %>% 
-  filter(iso_code == c("CHN", "CAN", "USA", "GBR")) %>% 
+  select(location, date, new_vaccinations_smoothed_per_million, new_vaccinations_smoothed) %>% 
+  filter(location == c("China", "Canada", "United States", "United Kingdom")) %>% 
   mutate(new_vaccinations_percentage = new_vaccinations_smoothed_per_million / 1000000) %>% 
   drop_na()
+
+a <- read_csv("owid-covid-data.csv")
 ```
+
+## Data
+Below is the data source.
+
+```{r echo = FALSE}
+paged_table(a)
+```
+
+## Visualization
+Graphs below visually demonstrate the recent data about case and vaccination situations in China, Canada, United States, and United Kingdom.
+
+### Weekly Cases
+The graph below demonstrates current data of weekly COVID-19 cases in China, Canada, United States, and United Kingdom starting from February 2020.
 
 ```{r, echo = FALSE}
 clean_cases_data %>% 
   ggplot() +
-  geom_line(aes(x = date, y = new_cases_percentage, color = iso_code)) +
-  facet_wrap(~iso_code) +
+  geom_line(aes(x = date, y = new_cases_percentage, color = location)) +
+  facet_wrap(~location) +
   scale_y_continuous(labels = scales::percent_format()) +
-  labs(title = "Daily COVID-19 Cases in four countries",
+  labs(title = "Weekly COVID-19 Cases in Four Countries",
        subtitle = "Number of cases in China is siginificantly lower than others",
        x = "Date",
-       y = "Daily Cases Percentage",
-       color = "ISO codes",
+       y = "Weekly Cases Percentage",
+       color = "Country",
        caption = "Source: Our World in Data")
 ```
 
@@ -53,18 +63,17 @@ The graph below demonstrates current data of weekly vaccinations in China, Canad
 
 ```{r, echo = FALSE}
 vaccinations_graph <- clean_vaccinations_data %>% 
-  ggplot(aes(x = date, y = new_vaccinations_percentage, color = iso_code,
-             text = paste("Date:", date, "\n",
-                          "Number of Vaccinations", new_vaccinations_smoothed)))+
+  ggplot(aes(x = date, y = new_vaccinations_percentage, color = location,
+             text = paste("Date:", date, "\n", "Number of Vaccinations", new_vaccinations_smoothed)))+
   geom_point() +
-  facet_wrap(~iso_code) +
+  facet_wrap(~location) +
   scale_y_continuous(labels = scales::percent_format()) +
-  labs(title = "Daily COVID-19 Vaccinations in four countries",
+  labs(title = "Weekly COVID-19 Vaccinations in Four Countries",
         subtitle = "All countries made a significant progress on vaccination",
         x = "Date",
-        y = "Daily Vaccinations Percentage
+        y = "Weekly Vaccinations Percentage
        ",
-       color = "ISO codes",
+       color = "Country",
        caption = "Source: Our World in Data") 
   
 ggplotly(vaccinations_graph, tooltip = "text")

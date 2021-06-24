@@ -1,0 +1,22 @@
+---
+title: "Conclusion"
+description: |
+  A few conclusion can be made based on the data.
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Conclusions
+* All of the four countries have a positive progress in vaccination.
+* COVID-19 cases reached a peak in January 2021.
+* China has the least cases among the countries.
+* China has the most vaccinations among the countries.
+* Asia owns the most cases and vaccinations in the world.
+* Africa's vaccination progress is concerning.
+
+
+
+

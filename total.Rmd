@@ -1,0 +1,113 @@
+---
+title: "Total Cases/Vaccinations"
+description: |
+  The investigation extends to the entire world.
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(plotly)
+library(ggthemes)
+```
+
+```{r include = FALSE}
+clean_total_data <- read_csv("owid-covid-data.csv") %>% 
+  select(location, total_cases, total_vaccinations, date) %>% 
+  filter(location == c("China", "United Kingdom", "United States", "Canada")) %>% 
+  slice(128, 256, 382, 510)
+a <- read_csv("owid-covid-data.csv")
+```
+
+```{r total cases graph, echo=FALSE}
+total_cases_graph <- clean_total_data %>% 
+  ggplot(aes(x = location, y = total_cases, fill = location,
+             text = paste("Date:", date, "\n",  
+                          "Number of Cases:", total_cases))) +
+  geom_col() +
+  scale_y_continuous(labels = scales::number_format()) +
+  labs(title = "Total Cases in Four Countries",
+       x = "Country",
+       y = "Number of Cases",
+       fill = "Country")
+
+ggplotly(total_cases_graph, tooltip = "text")
+```
+
+<aside>
+Source: Our World in Data
+</aside>
+
+```{r total vaccinations graph, echo=FALSE}
+total_vaccinations_graph <- clean_total_data %>% 
+  ggplot(aes(x = location, y = total_vaccinations, fill = location,
+             text = paste("Date:", date, "\n",  
+                          "Number of Vaccinations", total_vaccinations))) +
+  geom_col() +
+  scale_y_continuous(labels = scales::number_format()) +
+  labs(title = "Total Vaccinations in Four Countries",
+       x = "Country",
+       y = "Number of Vaccinations",
+       fill = "Country")
+
+ggplotly(total_vaccinations_graph, tooltip = "text")
+```
+
+<aside>
+Source: Our World in Data
+</aside>
+
+```{r echo = FALSE}
+a %>% 
+  select(date, total_cases, continent, location) %>% 
+  drop_na(continent) %>% 
+  group_by(location) %>% 
+  slice(n()) %>% 
+  drop_na(total_cases) %>% 
+  ungroup() %>% 
+  group_by(continent) %>% 
+  summarize(total_case = sum(total_cases)) %>% 
+  ggplot(aes(x = reorder(continent, total_case), y = total_case)) +
+  geom_col() +
+  coord_flip() +
+  scale_y_continuous(labels = scales::number_format()) +
+  labs(title = "Total Cases Comparsion Between Continents",
+       subtitle = "Asia has the most cases in the world",
+       x = "Country",
+       y = "Number of Cases")
+```
+
+<aside>
+Source: Our World in Data
+</aside>
+
+```{r echo = FALSE}
+a %>% 
+  select(date, total_vaccinations, continent, location) %>% 
+  drop_na(continent) %>% 
+  group_by(location) %>% 
+  slice(n()) %>% 
+  drop_na(total_vaccinations) %>% 
+  ungroup() %>% 
+  group_by(continent) %>% 
+  summarize(total_vaccination = sum(total_vaccinations)) %>% 
+  ggplot(aes(x = reorder(continent, total_vaccination), y = total_vaccination)) +
+  geom_col() +
+  coord_flip() +
+  scale_y_continuous(labels = scales::number_format()) +
+  labs(title = "Total Vaccinations Comparsion Between Continents",
+       subtitle = "Asia has the most vaccinations in the world",
+       x = "Country",
+       y = "Number of Vaccinations")
+```
+
+<aside>
+Source: Our World in Data
+</aside>
+
+
+
+
+
+
