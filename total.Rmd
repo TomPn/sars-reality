@@ -20,6 +20,9 @@ clean_total_data <- read_csv("owid-covid-data.csv") %>%
 a <- read_csv("owid-covid-data.csv")
 ```
 
+### Total Cases
+The graph below demonstrates current data of total number of cases in China, Canada, United States, and United Kingdom starting from January 2021.
+
 ```{r total cases graph, echo=FALSE}
 total_cases_graph <- clean_total_data %>% 
   ggplot(aes(x = location, y = total_cases, fill = location,
@@ -39,11 +42,17 @@ ggplotly(total_cases_graph, tooltip = "text")
 Source: Our World in Data
 </aside>
 
+### Analysis
+Apparently, the total number of cases in United States is significantly higher than the cases in other countries, implying that the protocol against the spread of coronavirus was not as successfully as those ones in others. On the other hand, China did a good job controlling the virus since the bar for China is almost invisible on the chart. According to the chart, Canada also has a great control over the spread of virus since its bar is relatively lower among these countries. Last but not least, the number of cases in United Kingdom is large, but it becomes less significant when comparing to United States.
+
+### Total Vaccinations
+The graph below demonstrates current data of total number of vaccinations in China, Canada, United States, and United Kingdom starting from January 2021.
+
 ```{r total vaccinations graph, echo=FALSE}
 total_vaccinations_graph <- clean_total_data %>% 
   ggplot(aes(x = location, y = total_vaccinations, fill = location,
              text = paste("Date:", date, "\n",  
-                          "Number of Vaccinations", total_vaccinations))) +
+                          "Number of Vaccinations:", total_vaccinations))) +
   geom_col() +
   scale_y_continuous(labels = scales::number_format()) +
   labs(title = "Total Vaccinations in Four Countries",
@@ -57,6 +66,12 @@ ggplotly(total_vaccinations_graph, tooltip = "text")
 <aside>
 Source: Our World in Data
 </aside>
+
+### Analysis
+Based on the data, China has almost 1 billion vaccinations, which is significantly higher than the other countries. Surprisingly, United States has a very postive progress on the vaccination, whereas Canada and United Kingdom did poorly comparing to the other two countries. 
+
+### Total Cases Worldwide
+The graph below demonstrates current data of total number of cases in the world, classified by continents.
 
 ```{r echo = FALSE}
 a %>% 
@@ -82,6 +97,12 @@ a %>%
 Source: Our World in Data
 </aside>
 
+### Analysis
+According to the graph, Asia has the most cases worldwide, which is reasonable since Asia owns the largest population in the world. However, despite United States itself has many cases, North America has less cases than Europe. Surprisingly, even though Africa is the second largest continent in terms of population, it doesn't have many cases comparing to other continents.
+
+### Total Vaccinatios Worldwide
+The graph below demonstrates current data of total number of vaccinations in the world, classified by continents.
+
 ```{r echo = FALSE}
 a %>% 
   select(date, total_vaccinations, continent, location) %>% 
@@ -106,8 +127,5 @@ a %>%
 Source: Our World in Data
 </aside>
 
-
-
-
-
-
+### Analysis
+According to the graph, Asia, again has the most vaccinations done worldwide, with a significantly higher injection number than other continents, and one reason could be that Asia owns the largest population in the world. Since Asia has too many vaccinations, the other continents seem to do poorly on the vaccination progress even though they did a great job, except for Africa. Africa's progress is significantly concerning because its population is large, but the vaccination number is small. 
