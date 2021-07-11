@@ -9,8 +9,6 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(plotly)
 library(ggthemes)
-library(knitr)
-library(rmarkdown)
 ```
 
 ```{r include = FALSE}
@@ -25,14 +23,6 @@ clean_vaccinations_data <- read_csv("owid-covid-data.csv") %>%
   mutate(new_vaccinations_percentage = new_vaccinations_smoothed_per_million / 1000000) %>% 
   drop_na()
 
-a <- read_csv("owid-covid-data.csv")
-```
-
-## Data
-Below is the data source.
-
-```{r echo = FALSE}
-paged_table(a)
 ```
 
 ## Visualization

@@ -6,5 +6,18 @@ description: |
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(knitr)
+library(rmarkdown)
+a <- read_csv("owid-covid-data.csv")
 ```
 
+## About Me
+Hi, guys! My name is Tom, and I'm a student in the University of Waterloo! This website is devoted to presenting a brief analysis on the effect of coronavirus on various countries and continents. The analysis is fully based on the visualization of the data provided by *Our World in Data*. 
+
+## Data
+Below is the data source.
+
+```{r echo = FALSE}
+paged_table(a)
+```
