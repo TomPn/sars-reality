@@ -1,4 +1,5 @@
 # SARS Reality
+> A pandemic information sharing platform
 
 ![SARS Reality Logo](https://github.com/TomPn/SARS-Reality/blob/main/sars_logo.JPEG)
 
