@@ -1,4 +1,4 @@
-# Final-Project
+# SARS-Reality
 
 ## Description
 This project is a website that visually demonstrates data relating to COVID cases and vaccinations from February 2020 to July 2021 and consists of a varity of analysis on the data shown. the website can be seen from the link below:
