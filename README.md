@@ -1,5 +1,7 @@
 # SARS Reality
 
+![SARS Reality Logo](https://github.com/TomPn/SARS-Reality/blob/main/sars_logo.JPEG)
+
 ## What is SARS Reality?
 SARS Reality is a COVID-19 information sharing platform that includes demonsrtation and quantitaive analytics of pandemic-related data such as the number of cases and vaccinations.
 
