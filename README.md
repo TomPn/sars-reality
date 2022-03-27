@@ -6,7 +6,7 @@
 ## What is SARS Reality?
 SARS Reality is a COVID-19 information sharing platform that includes demonsrtation and quantitaive analytics of pandemic-related data such as the number of cases and vaccinations.
 
-This platform is shared publicly with audience being general public. Check it out [here](https://tompn.github.io/SARS-Reality/)
+This platform is shared publicly with audience being general public.
 
 ## Vision (objective)
 The objective of SARS Reality is to provide an opportunity for the general public a to gain a fundamental understanding of the ongoing details
